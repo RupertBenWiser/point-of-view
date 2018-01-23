@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "rootDir": "src",
+        "outDir": "compiled",
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "es2015",
+            "es2015.iterable"
+        ]
+    }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "parralax",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0"
+  }
+}
