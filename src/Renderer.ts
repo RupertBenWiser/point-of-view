@@ -15,7 +15,7 @@ const getContext = (canvas: HTMLCanvasElement): CanvasRenderingContext2D => {
 };
 
 const orderElements = (elements: Array<ImageBillboard>): Array<ImageBillboard> => {
-    return elements.sort((a, b) => a.z - b.z);
+    return elements.sort((a, b) => b.z - a.z);
 };
 
 const renderElements = (id: string, width:number, height:number, elements: Array<ImageBillboard>) => {
