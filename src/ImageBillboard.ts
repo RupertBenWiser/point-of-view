@@ -1,5 +1,7 @@
+import Tracker from './Tracker';
+
 const DISTANCE_FACTOR: number = 1.2;
-const ACCELERATION_FACTOR: number = 16.0;
+const ACCELERATION_FACTOR: number = 8.0;
 
 interface Vec3 {
     x: number;
@@ -24,9 +26,25 @@ class ImageBillboard {
             y: 0,
             z: 0,
         };
+        const mobile = false;
 
         this.updateMovement = this.updateMovement.bind(this);
-        window.addEventListener("devicemotion", this.updateMovement);
+        this.updateTracking = this.updateTracking.bind(this);
+        if (mobile) {
+            window.addEventListener("devicemotion", this.updateMovement);
+        } else {
+            this.updateTracking();
+        }
+    }
+
+    private updateTracking() {
+        const SPEED = 10.0;
+        const moveField = (field: string) => {
+            this.currentAcceleration[field] += (Tracker[field] - this.currentAcceleration[field]) / SPEED;
+        };
+        moveField('x');
+        moveField('y');
+        requestAnimationFrame(this.updateTracking);
     }
 
     private updateMovement(event: DeviceMotionEvent) {
@@ -41,13 +59,14 @@ class ImageBillboard {
     }
 
     public render(context: CanvasRenderingContext2D): void {
-        const addOrientation = (field: string) => (
-            this.currentAcceleration !== undefined ? (this.currentAcceleration[field] * ACCELERATION_FACTOR / (DISTANCE_FACTOR * this.z)) : 0
+        type inversion = -1 | 1;
+        const addOrientation = (field: string, invert: inversion = 1) => (
+            this.currentAcceleration !== undefined ? ((this.currentAcceleration[field] * invert) * ACCELERATION_FACTOR / (DISTANCE_FACTOR * this.z)) : 0
         );
         context.drawImage(
             this.image,
             this.x + addOrientation('x'),
-            this.y + addOrientation('y'),
+            this.y + addOrientation('y', -1),
             this.width,
             this.height,
         );
